@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Acesso - Guarita</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #2c3e50; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-align: center; width: 350px; }
+        input { padding: 12px; width: 80%; margin-bottom: 15px; border: 2px solid #bdc3c7; border-radius: 4px; font-size: 18px; text-transform: uppercase; text-align: center; }
+        button { padding: 12px 20px; background-color: #2980b9; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; width: 88%; font-weight: bold;}
+        button:hover { background-color: #3498db; }
+        
+        .status-box { margin-top: 20px; padding: 15px; border-radius: 4px; font-weight: bold; display: none; }
+        .autorizado { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .negado { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        
+        /* Animação da Cancela */
+        .base-cancela { width: 20px; height: 60px; background-color: #333; margin: 20px auto 0 auto; border-radius: 4px 4px 0 0; position: relative;}
+        .haste { width: 150px; height: 12px; background: repeating-linear-gradient(45deg, #e74c3c, #e74c3c 10px, #f1c40f 10px, #f1c40f 20px); position: absolute; top: 10px; left: 10px; transform-origin: left center; transition: transform 0.6s ease-in-out; border-radius: 4px;}
+        .haste.aberta { transform: rotate(-90deg); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Simulador Câmera LPR</h2>
+        <p>Digite a placa do veículo se aproximando:</p>
+        
+        <input type="text" id="placaInput" placeholder="EX: ABC1234">
+        <button onclick="verificarAcesso()">Simular Leitura</button>
+
+        <div id="statusResult" class="status-box"></div>
+        
+        <div class="base-cancela">
+            <div id="cancelaVisual" class="haste"></div>
+        </div>
+        <p id="cancelaTexto" style="font-weight: bold; margin-top: 20px;">CANCELA FECHADA</p>
+    </div>
+
+    <script>
+        async function verificarAcesso() {
+            const placa = document.getElementById('placaInput').value;
+            const resultBox = document.getElementById('statusResult');
+            const cancela = document.getElementById('cancelaVisual');
+            const cancelaTexto = document.getElementById('cancelaTexto');
+
+            if (!placa) {
+                alert("Por favor, simule a leitura de uma placa.");
+                return;
+            }
+
+            try {
+                // Envia a requisição via API para o Flask
+                const response = await fetch('/verificar_placa', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ placa: placa })
+                });
+
+                const data = await response.json();
+
+                // Atualiza a interface com a resposta do Servidor
+                resultBox.style.display = 'block';
+                resultBox.innerText = data.mensagem;
+                resultBox.className = 'status-box ' + data.status;
+
+                if (data.status === 'autorizado') {
+                    cancela.classList.add('aberta');
+                    cancelaTexto.innerText = "CANCELA ABERTA";
+                    cancelaTexto.style.color = "green";
+                    
+                    // Fecha a cancela automaticamente após 4 segundos (simula o carro passando)
+                    setTimeout(() => {
+                        cancela.classList.remove('aberta');
+                        cancelaTexto.innerText = "CANCELA FECHADA";
+                        cancelaTexto.style.color = "black";
+                        resultBox.style.display = 'none';
+                        document.getElementById('placaInput').value = '';
+                    }, 4000);
+                } else {
+                    cancela.classList.remove('aberta');
+                    cancelaTexto.innerText = "ACESSO BLOQUEADO";
+                    cancelaTexto.style.color = "red";
+                }
+            } catch (error) {
+                console.error("Erro de comunicação com o servidor:", error);
+            }
+        }
+    </script>
+</body>
+</html>
