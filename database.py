@@ -1,15 +1,14 @@
 import mysql.connector
-import os
 
 def get_connection():
+   
     return mysql.connector.connect(
-        host=os.getenv("DB_HOST", "srv2037.hstgr.io"),
-        user=os.getenv("DB_USER", "u586690765_SealHealth"),
-        password=os.getenv("DB_PASSWORD"),
-        database=os.getenv("DB_NAME", "u586690765_SealHealthHs"),
+        host="srv2037.hstgr.io",
+        user="u586690765_SealHealth",
+        password="SealMath8080", 
+        database="u586690765_SealHealthHs",
         port=3306
     )
-
 
 def criar_tabela():
     try:
