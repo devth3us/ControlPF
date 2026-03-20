@@ -5,7 +5,7 @@ def get_connection():
     return mysql.connector.connect(
         host="srv2037.hstgr.io",
         user="u586690765_SealHealth",
-        password="SealMath8080", 
+        ", 
         database="u586690765_SealHealthHs",
         port=3306
     )
