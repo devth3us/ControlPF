@@ -1,0 +1,22 @@
+body { font-family: Arial, sans-serif; background-color: #2c3e50; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+.container { background: white; padding: 20px; border-radius: 8px; width: 400px; text-align: center; }
+.video-container { width: 100%; background: #000; border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
+#webcam { width: 100%; height: auto; }
+.btn-primario { background-color: #2980b9; color: white; padding: 12px; width: 100%; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; font-weight: bold;}
+.btn-secundario { background-color: #7f8c8d; color: white; padding: 10px; width: 100%; border: none; border-radius: 4px; cursor: pointer; }
+input { padding: 10px; width: 90%; margin-bottom: 10px; text-transform: uppercase; text-align: center; }
+
+/* Modal */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; }
+.modal-content { background: white; padding: 25px; border-radius: 8px; width: 300px; text-align: center; position: relative; }
+.close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #777; }
+#modalFoto { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid #ecf0f1; margin-bottom: 10px; }
+.tag-materia { background: #34495e; color: white; padding: 4px 10px; border-radius: 12px; font-size: 12px; display: inline-block; }
+.status-banner { margin-top: 15px; padding: 10px; font-weight: bold; border-radius: 4px; }
+.autorizado { background: #27ae60; color: white; }
+.negado { background: #e74c3c; color: white; }
+
+/* Cancela */
+.base-cancela { width: 20px; height: 60px; background-color: #333; margin: 20px auto 0 auto; position: relative;}
+.haste { width: 180px; height: 12px; background: repeating-linear-gradient(45deg, #e74c3c, #e74c3c 10px, #f1c40f 10px, #f1c40f 20px); position: absolute; top: 10px; left: 10px; transform-origin: left center; transition: transform 0.6s ease-in-out; }
+.haste.aberta { transform: rotate(-90deg); }

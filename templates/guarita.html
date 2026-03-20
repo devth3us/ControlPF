@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Guarita - Controle de Acesso</title>
+    <link rel="stylesheet" href="/static/css/guarita.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Câmera LPR da Entrada</h2>
+        
+        <div class="video-container">
+            <video id="webcam" autoplay playsinline></video>
+            <canvas id="canvasFrame" style="display: none;"></canvas>
+        </div>
+
+        <div class="controles">
+            <button id="btnCapturar" class="btn-primario">📸 Ler Placa na Câmera</button>
+            <p style="margin: 10px 0; color: #7f8c8d;">OU simule digitando:</p>
+            <input type="text" id="placaManual" placeholder="Digite a placa...">
+            <button id="btnSimular" class="btn-secundario">Simular Acesso</button>
+            
+            <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
+            
+            <a href="/cadastro" class="btn-secundario" style="display: block; text-decoration: none; background-color: #27ae60; padding: 12px; color: white; border-radius: 4px; font-weight: bold;">➕ Cadastrar Novo Professor</a>
+        </div>
+
+        <div class="base-cancela">
+            <div id="cancelaVisual" class="haste"></div>
+        </div>
+    </div>
+
+    <div id="modalProfessor" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="fecharModal()">&times;</span>
+            <img id="modalFoto" src="" alt="Foto do Professor">
+            <h3 id="modalNome">Nome</h3>
+            <p id="modalMateria" class="tag-materia">Matéria</p>
+            <div id="modalStatus" class="status-banner"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+    <script src="/static/js/guarita.js"></script>
+</body>
+</html>

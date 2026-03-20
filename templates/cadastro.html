@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Professores</title>
+    <link rel="stylesheet" href="/static/css/cadastro.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Cadastrar Professor</h2>
+        <form id="formCadastro" enctype="multipart/form-data">
+            <input type="text" name="nome" placeholder="Nome do Professor" required>
+            <input type="text" name="materia" placeholder="Matéria (ex: Redes, Programação)" required>
+            <input type="text" name="placa" placeholder="Placa do Veículo (ex: ABC1234)" required>
+            <input type="file" name="foto" accept="image/*" required>
+            <button type="submit">Salvar no Banco</button>
+        </form>
+        <div id="mensagemBox"></div>
+    </div>
+
+    <script>
+        // Envia os dados para o Flask sem recarregar a página
+        document.getElementById('formCadastro').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const msgBox = document.getElementById('mensagemBox');
+
+            const response = await fetch('/api/cadastrar', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            
+            msgBox.innerText = data.mensagem;
+            msgBox.className = data.status === 'sucesso' ? 'msg-sucesso' : 'msg-erro';
+            
+            if(data.status === 'sucesso') e.target.reset(); // Limpa o formulário
+        });
+    </script>
+</body>
+</html>
